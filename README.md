@@ -19,3 +19,22 @@
 ```
 pip install -r requirements.txt
 ```
+
+### To download WM-811k dataset, [click here][1]
+
+### To generate the results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1]: https://www.kaggle.com/datasets/qingyi/wm811k-wafer-map
