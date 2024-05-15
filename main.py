@@ -169,12 +169,12 @@ def training(network, params, batch_size=64, epochs=10, lr=0.0001, dataloaders=N
     weights_ts = ['module.wafer2spike.w_t']
     
     decay_params = list(map(lambda x: x[1],list(filter(lambda kv: kv[0] in decays, wafer2spike_snn.named_parameters()))))
-    ts_params = list(map(lambda x: x[1],list(filter(lambda kv: kv[0] in weights_ts, wafer2spike_snn.named_parameters()))))
+    params_ts = list(map(lambda x: x[1],list(filter(lambda kv: kv[0] in weights_ts, wafer2spike_snn.named_parameters()))))
     
     weights = list(map(lambda x: x[1],list(filter(lambda kv: kv[0] not in decays+weights_ts, wafer2spike_snn.named_parameters()))))
 
     # Instantiating an optimizer
-    optimizer = torch.optim.Adam([{'params': weights}, {'params': decay_params, 'lr': lr}, {'params': ts_params, 'lr': lr}], lr=lr)
+    optimizer = torch.optim.Adam([{'params': weights}, {'params': decay_params}, {'params': params_ts}], lr=lr)
     
     
     # Training 
@@ -237,7 +237,6 @@ if __name__ == "__main__":
     parser.add_argument('--thrWin', type = float, help = "Threshold window for neurons", default = 0.3)
     parser.add_argument('--epoch', type = int, help = "Number of epochs.", default = 20)
     parser.add_argument('--batchSize', type = int, help = "Batch Size.", default = 256)
-    parser.add_argument('--spikeTs', type = int, help = "Spike time steps.", default = 5)
     parser.add_argument('--learningRate', type = float, help = "Learning Rate.", default = 0.0001) 
     parser.add_argument('--modelType', type = str, help = "Type of the architecture: Wafer2Spike_2C or Wafer2Spike_3C or Wafer2Spike_4C", default = "Wafer2Spike_4C")
     parser.add_argument('--dropout_fc', type = float, help = "Dropout percentage in fully connected layers.", default = 0.3)
@@ -362,7 +361,6 @@ if __name__ == "__main__":
     AUGMENTATION = True
     if AUGMENTATION:
         
-        print("Augmentation:", bool(AUGMENTATION))
         print("Generating augmented samples ...", "\n")
         
         aug_map_cls_fold =  {'0':2, '1':23, '2':4, '4':8, '5':16, '6':20, '7':166}
@@ -429,7 +427,9 @@ if __name__ == "__main__":
         
           X_train_aug += X_aug
           y_train_aug += y_aug
-        
+
+          print("Class:", cls, "Done!")
+
         indices_cls_8 = np.where(np.array(y_train) == 8)[0]
         for ix in indices_cls_8:
           X_train_aug.append(X_train[ix])

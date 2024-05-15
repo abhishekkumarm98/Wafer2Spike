@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 ### To download WM-811k dataset, [click here][1]
 
-### To generate the results
+### To generate the results (Augmentation will take rougly 20 minutes)
 
 
 #### Split ratio = 8:2
