@@ -160,11 +160,26 @@ def training(network, params, batch_size=64, epochs=10, lr=0.0001, dataloaders=N
     # Instantiating a loss function
     criterion = nn.CrossEntropyLoss()
 
-    # Both synaptic current and voltage decay for each spiking layer
-    decays = ['module.wafer2spike.conv_spk_enc_w_vdecay', 'module.wafer2spike.conv_spk_enc_w_scdecay', 'module.wafer2spike.Spk_conv1_w_vdecay',
-          'module.wafer2spike.Spk_conv1_w_scdecay', 'module.wafer2spike.Spk_conv2_w_vdecay', 'module.wafer2spike.Spk_conv2_w_scdecay', 
-          'module.wafer2spike.Spk_conv3_w_vdecay', 'module.wafer2spike.Spk_conv3_w_scdecay', 'module.wafer2spike.Spk_conv4_w_vdecay',
-          'module.wafer2spike.Spk_conv4_w_scdecay', 'module.wafer2spike.Spk_fc_w_vdecay', 'module.wafer2spike.Spk_fc_w_scdecay']
+    if model_type.lower() == "Wafer2Spike_4C".lower():
+        # Both synaptic current and voltage decay for each spiking layer
+        decays = ['module.wafer2spike.conv_spk_enc_w_vdecay', 'module.wafer2spike.conv_spk_enc_w_scdecay', 'module.wafer2spike.Spk_conv1_w_vdecay',
+              'module.wafer2spike.Spk_conv1_w_scdecay', 'module.wafer2spike.Spk_conv2_w_vdecay', 'module.wafer2spike.Spk_conv2_w_scdecay', 
+              'module.wafer2spike.Spk_conv3_w_vdecay', 'module.wafer2spike.Spk_conv3_w_scdecay', 'module.wafer2spike.Spk_conv4_w_vdecay',
+              'module.wafer2spike.Spk_conv4_w_scdecay', 'module.wafer2spike.Spk_fc_w_vdecay', 'module.wafer2spike.Spk_fc_w_scdecay']
+
+    elif model_type.lower() == "Wafer2Spike_3C".lower():
+        # Both synaptic current and voltage decay for each spiking layer
+        decays = ['module.wafer2spike.conv_spk_enc_w_vdecay', 'module.wafer2spike.conv_spk_enc_w_scdecay', 'module.wafer2spike.Spk_conv1_w_vdecay',
+              'module.wafer2spike.Spk_conv1_w_scdecay', 'module.wafer2spike.Spk_conv2_w_vdecay', 'module.wafer2spike.Spk_conv2_w_scdecay', 
+              'module.wafer2spike.Spk_conv3_w_vdecay', 'module.wafer2spike.Spk_conv3_w_scdecay', 'module.wafer2spike.Spk_fc_w_vdecay', 
+              'module.wafer2spike.Spk_fc_w_scdecay']
+
+    elif model_type.lower() == "Wafer2Spike_2C".lower():
+        # Both synaptic current and voltage decay for each spiking layer
+        decays = ['module.wafer2spike.conv_spk_enc_w_vdecay', 'module.wafer2spike.conv_spk_enc_w_scdecay', 'module.wafer2spike.Spk_conv1_w_vdecay',
+              'module.wafer2spike.Spk_conv1_w_scdecay', 'module.wafer2spike.Spk_conv2_w_vdecay', 'module.wafer2spike.Spk_conv2_w_scdecay', 
+              'module.wafer2spike.Spk_fc_w_vdecay', 'module.wafer2spike.Spk_fc_w_scdecay']
+
 
     weights_ts = ['module.wafer2spike.w_t']
     
@@ -314,6 +329,8 @@ if __name__ == "__main__":
     
     """
     
+    print(f"Model Type: {MODEL_TYPE}")
+
     df['failureNum'] = df.failureType
     df['trainTestNum'] = df.trianTestLabel
     mapping_type = {'Center':0,'Donut':1,'Edge-Loc':2,'Edge-Ring':3,'Loc':4,'Random':5,'Scratch':6,'Near-full':7,'none':8}
@@ -329,7 +346,7 @@ if __name__ == "__main__":
     # Random sampling without replacement
     wafer_data = wafer_data.sample(n=len(wafer_data), replace=False, random_state=1) # random_state=1 
     
-    print("SPLITRATIO:", SPLITRATIO)
+    print("SPLITRATIO:", SPLITRATIO, "\n")
     X_train, X_test, y_train, y_test = [], [], [], []
     
     if (SPLITRATIO == '8:2') or (SPLITRATIO == '8:1:1'):
@@ -450,7 +467,7 @@ if __name__ == "__main__":
         wafer_tr_label = np.array(y_train)[y_train_ran_index]
         wafer_tr_label = torch.tensor(wafer_tr_label).float()
         
-            
+    print()
     wafer_test_data = preprocess_images(X_test)
     wafer_test_label = np.array(y_test)
     wafer_test_label = torch.tensor(wafer_test_label).float()

@@ -28,6 +28,7 @@ pip install -r requirements.txt
 #### Split ratio = 8:2
 ```
 python main.py --splitRatio '8:2' --epoch 13 --modelType "Wafer2Spike_4C"
+python main.py --splitRatio '8:2' --epoch 14 --modelType "Wafer2Spike_3C"
 ```
 
 #### Split ratio = 8:1:1
@@ -38,11 +39,14 @@ python main.py --splitRatio '8:1:1' --epoch 12 --modelType "Wafer2Spike_4C"
 #### Split ratio = 7:3
 ```
 python main.py --splitRatio '7:3' --epoch 13 --modelType "Wafer2Spike_4C"
+python main.py --splitRatio '7:3' --epoch 12 --modelType "Wafer2Spike_2C"
 ```
 
 #### Split ratio = 6:1:3
 ```
 python main.py --splitRatio '6:1:3' --epoch 12 --modelType "Wafer2Spike_4C"
+python main.py --splitRatio '6:1:3' --epoch 10 --modelType "Wafer2Spike_3C"
+python main.py --splitRatio '6:1:3' --epoch 12 --modelType "Wafer2Spike_2C"
 ```
 
 
