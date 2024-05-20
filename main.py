@@ -300,7 +300,7 @@ if __name__ == "__main__":
     
     # Loading Wafer Dataset
     print("Loading WM-811k Wafer Data ...", "\n")
-    df = pd.read_pickle("../../Wafer_Classification/LSWMD.pkl")
+    df = pd.read_pickle("LSWMD.pkl")
 
     trte = []
     for j in df["trianTestLabel"]:
