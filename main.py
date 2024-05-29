@@ -90,13 +90,14 @@ def Transformations(angle, img):
     return transformations[np.random.randint(0, 13)](img).numpy()
 
 
-def test_accuracy(network, test_loader, criterion, device):
+def test_accuracy(network, test_loader, criterion, device, set_name):
     """
     args:
     network: Wafer2Spike, an SNN model
     test_loader: Data loader for test set
     criterion: Crossentropy Loss
     device: CPU or CUDA (GPU)
+    set_name: Val or Test set
     
     """
     
@@ -111,7 +112,7 @@ def test_accuracy(network, test_loader, criterion, device):
         test_loss += loss.to('cpu').item()
         correct += sum(np.argmax(output.data.cpu().numpy(), 1) == target.data.cpu().numpy())
 
-    print("Test loss: {:.6f} | Test accuracy: {:.6f}".format(test_loss / len(test_loader), correct / len(test_loader.dataset)))
+    print("{} loss: {:.6f} | {} accuracy: {:.6f}".format(set_name, test_loss / len(test_loader), set_name, correct / len(test_loader.dataset)))
                                                                   
                                                                   
     
@@ -213,7 +214,11 @@ def training(network, params, batch_size=64, epochs=10, lr=0.0001, dataloaders=N
             param.data = param.data.clamp(min=1e-7)
             
         print(f"Epoch: {e} | Training Loss: {loss_per_epoch / len(train_loader.dataset)} | Training accuracy : {correct / len(train_loader.dataset)}")
-        test_accuracy(wafer2spike_snn, test_loader, criterion, device)
+        
+        if len(dataloaders)==3:
+            test_accuracy(wafer2spike_snn, val_loader, criterion, device, "Validation")
+        elif len(dataloaders)==2:
+            test_accuracy(wafer2spike_snn, test_loader, criterion, device, "Test")
         
         
     pred = []
@@ -300,7 +305,7 @@ if __name__ == "__main__":
     
     # Loading Wafer Dataset
     print("Loading WM-811k Wafer Data ...", "\n")
-    df = pd.read_pickle("LSWMD.pkl")
+    df = pd.read_pickle("../../Wafer_Classification/LSWMD.pkl")
 
     trte = []
     for j in df["trianTestLabel"]:
