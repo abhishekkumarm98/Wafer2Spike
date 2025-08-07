@@ -54,7 +54,22 @@ python main.py --splitRatio '6:1:3' --epoch 12 --modelType "Wafer2Spike_2C"
 ```
 
 
+## Citation
 
+If you find our work useful, please cite our paper.
+```
+@INPROCEEDINGS{10766711,
+  author={Mishra, Abhishek and Kumar, Suman and Lingamoorthy, Anush and Das, Anup and Kandasamy, Nagarajan},
+  booktitle={2024 IEEE International Test Conference (ITC)}, 
+  title={Wafer2Spike: Spiking Neural Network for Wafer Map Pattern Classification}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={16-20},
+  keywords={Integrated circuit synthesis;Accuracy;Pattern classification;Spiking neural networks;Computer architecture;Benchmark testing;Computational efficiency;Manufacturing;Open source software;Wafer map pattern classification;spiking neural networks;neuromorphic computing},
+  doi={10.1109/ITC51657.2024.00011}}
+
+```
 
 
 
